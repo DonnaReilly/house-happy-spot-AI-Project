@@ -1,8 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { properties, vibeFilters, type Vibe } from "@/data/properties";
 import { PlaygroundMap } from "@/components/PlaygroundMap";
 import { PropertyDetail } from "@/components/PropertyDetail";
+import { useAuth } from "@/hooks/use-auth";
+import { LogOut } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,6 +21,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [filter, setFilter] = useState<Vibe | "all">("all");
   const [selectedId, setSelectedId] = useState<string>(properties[2].id);
+  const { user, signOut } = useAuth();
 
   const filteredIds = useMemo(
     () => new Set(properties.filter(p => filter === "all" || p.vibe === filter).map(p => p.id)),
@@ -42,9 +45,26 @@ function Index() {
             <a className="hover:text-primary transition" href="#">Agents</a>
             <a className="hover:text-primary transition" href="#">Journal</a>
           </nav>
-          <button className="rounded-full bg-ink text-cream px-4 py-2 text-sm font-bold border-2 border-ink hover:-translate-y-0.5 hover:shadow-pop transition">
-            Sign in
-          </button>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:grid place-items-center h-9 w-9 rounded-full bg-gradient-dusk text-cream font-display border-2 border-ink">
+                {(user.email ?? "?").charAt(0).toUpperCase()}
+              </span>
+              <button
+                onClick={() => signOut()}
+                className="rounded-full bg-card text-foreground px-4 py-2 text-sm font-bold border-2 border-ink hover:-translate-y-0.5 hover:shadow-pop transition inline-flex items-center gap-1.5"
+              >
+                <LogOut className="h-4 w-4" /> Sign out
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/auth"
+              className="rounded-full bg-ink text-cream px-4 py-2 text-sm font-bold border-2 border-ink hover:-translate-y-0.5 hover:shadow-pop transition"
+            >
+              Sign in
+            </Link>
+          )}
         </div>
       </header>
 
