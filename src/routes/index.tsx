@@ -123,7 +123,7 @@ function Index() {
             <div key={i} className="flex gap-10 shrink-0">
               <span>🏡 find your weird</span>
               <span>✺</span>
-              <span>🗺️ map > list, always</span>
+              <span>🗺️ map {">"} list, always</span>
               <span>✺</span>
               <span>🪩 homes with stories</span>
               <span>✺</span>
