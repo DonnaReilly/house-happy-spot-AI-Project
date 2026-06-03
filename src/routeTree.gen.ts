@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SavedRouteImport } from './routes/saved'
+import { Route as JournalRouteImport } from './routes/journal'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AgentsRouteImport } from './routes/agents'
@@ -18,6 +19,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const SavedRoute = SavedRouteImport.update({
   id: '/saved',
   path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExploreRoute = ExploreRouteImport.update({
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/agents': typeof AgentsRoute
   '/auth': typeof AuthRoute
   '/explore': typeof ExploreRoute
+  '/journal': typeof JournalRoute
   '/saved': typeof SavedRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/agents': typeof AgentsRoute
   '/auth': typeof AuthRoute
   '/explore': typeof ExploreRoute
+  '/journal': typeof JournalRoute
   '/saved': typeof SavedRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,22 @@ export interface FileRoutesById {
   '/agents': typeof AgentsRoute
   '/auth': typeof AuthRoute
   '/explore': typeof ExploreRoute
+  '/journal': typeof JournalRoute
   '/saved': typeof SavedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agents' | '/auth' | '/explore' | '/saved'
+  fullPaths: '/' | '/agents' | '/auth' | '/explore' | '/journal' | '/saved'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agents' | '/auth' | '/explore' | '/saved'
-  id: '__root__' | '/' | '/agents' | '/auth' | '/explore' | '/saved'
+  to: '/' | '/agents' | '/auth' | '/explore' | '/journal' | '/saved'
+  id:
+    | '__root__'
+    | '/'
+    | '/agents'
+    | '/auth'
+    | '/explore'
+    | '/journal'
+    | '/saved'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +92,7 @@ export interface RootRouteChildren {
   AgentsRoute: typeof AgentsRoute
   AuthRoute: typeof AuthRoute
   ExploreRoute: typeof ExploreRoute
+  JournalRoute: typeof JournalRoute
   SavedRoute: typeof SavedRoute
 }
 
@@ -86,6 +103,13 @@ declare module '@tanstack/react-router' {
       path: '/saved'
       fullPath: '/saved'
       preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/explore': {
@@ -124,6 +148,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentsRoute: AgentsRoute,
   AuthRoute: AuthRoute,
   ExploreRoute: ExploreRoute,
+  JournalRoute: JournalRoute,
   SavedRoute: SavedRoute,
 }
 export const routeTree = rootRouteImport
