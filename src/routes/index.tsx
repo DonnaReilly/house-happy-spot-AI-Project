@@ -1,10 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { properties, vibeFilters, type Vibe } from "@/data/properties";
 import { PlaygroundMap } from "@/components/PlaygroundMap";
 import { PropertyDetail } from "@/components/PropertyDetail";
-import { useAuth } from "@/hooks/use-auth";
-import { LogOut } from "lucide-react";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/")({
   head: () => ({
